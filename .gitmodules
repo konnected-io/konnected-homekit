@@ -1,0 +1,3 @@
+[submodule "components/gdolib"]
+	path = components/gdolib
+	url = https://github.com/konnected-io/gdolib.git
