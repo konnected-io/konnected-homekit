@@ -27,7 +27,7 @@ jobs:
           idf.py build
           esptool.py --chip esp32s3 merge_bin \
             -o build/konnected-gdo-blaq-homekit.bin \
-            --flash_mode dio --flash_size detect --flash_freq 80m \
+            --flash_mode dio --flash_size 4MB --flash_freq 80m \
             0x0 build/bootloader/bootloader.bin \
             0x8000 build/partition_table/partition-table.bin \
             0x10000 build/konnected-homekit.bin
