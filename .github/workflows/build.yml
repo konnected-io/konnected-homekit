@@ -26,16 +26,31 @@ jobs:
         command: |
           idf.py build
 
+    - name: Generate combined firmware
+      run: |
+        esptool.py --chip esp32s3 merge_bin \
+          -o build/konnected-gdo-blaq-homekit.bin \
+          --flash_mode dio --flash_size detect --flash_freq 80m \
+          0x0 build/bootloader/bootloader.bin \
+          0x8000 build/partition_table/partition-table.bin \
+          0x10000 build/konnected-homekit.bin
+
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: konnected-homekit-firmware
+        name: konnected-gdo-blaq-homekit
         path: |
           build/konnected-homekit.bin
           build/bootloader/bootloader.bin
           build/partition_table/partition-table.bin
-          build/flash_argshttps://github.com/espressif/esp-homekit-sdk.git
           build/flasher_args.json
+        if-no-files-found: error
+
+    - name: Upload combined firmware artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: konnected-gdo-blaq-homekit
+        path: build/konnected-gdo-blaq-homekit.bin
         if-no-files-found: error
 
     - name: Upload build size report
